@@ -1,0 +1,1 @@
+{"id":"index.html","dependencies":[],"generated":{"html":"<!DOCTYPE html>\n<html>\n<head>\n\n    <title>Pong</title>\n\n</head>\n<body>\n   <script scr=\"./main.js\"></script>\n</body>\n</html>"},"sourceMaps":null,"error":null,"hash":"bfbabe5fb138c35ad4814acdc8650558","cacheData":{}}
