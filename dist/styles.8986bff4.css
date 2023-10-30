@@ -20,14 +20,21 @@ body, html {
 .character {
     width: 79px;  /* Width of a single frame */
     height: 140px; /* Height of a single frame */
-    background-image: url('/Character_spritesheet.24a3a14a.png');
     background-repeat: no-repeat;
     position: absolute;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
 }
+#player {
+    background-image: url('/Character_spritesheet.24a3a14a.png');
+    top: 50%;
+    left: 50%;
+}
 
+#npc {
+    background-image: url('/NPC-Spritesheet.ff52a69a.png');
+    top: 50%;
+    left: 80%; /* Adjust based on where you want the NPC to start */
+}
 
 
 /*# sourceMappingURL=/styles.8986bff4.css.map */

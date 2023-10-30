@@ -118,26 +118,51 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"script.js":[function(require,module,exports) {
-var character = document.querySelector('.character');
-var frameIndex = 0;
-var numberOfFrames = 9; // Adjust based on your sprite sheet
+var player = document.getElementById('player');
+var npc = document.getElementById('npc');
+var playerFrameIndex = 0;
+var npcFrameIndex = 0;
+var playerNumberOfFrames = 9; // Adjust based on your player sprite sheet
+var npcNumberOfFrames = 4; // Adjust based on your NPC sprite sheet
 var frameWidth = 79; // Width of a single frame
 var frameHeight = 140; // Height of a single frame
+var speed = 10; // Walking speed in pixels
 
 document.addEventListener('keydown', function (event) {
   if (event.key === 'ArrowRight') {
-    character.style.left = "".concat(character.offsetLeft + 5, "px");
-    animateCharacter();
+    player.style.transform = 'translate(-50%, -50%) scaleX(1)'; // Normal orientation
+    player.style.left = "".concat(player.offsetLeft + speed, "px");
+    animatePlayer();
   } else if (event.key === 'ArrowLeft') {
-    character.style.left = "".concat(character.offsetLeft - 5, "px");
-    animateCharacter();
+    player.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
+    player.style.left = "".concat(player.offsetLeft - speed, "px");
+    animatePlayer();
   }
 });
-function animateCharacter() {
-  frameIndex = (frameIndex + 1) % numberOfFrames;
-  var xOffset = frameIndex * frameWidth;
-  character.style.backgroundPosition = "-".concat(xOffset, "px 0px");
+function animatePlayer() {
+  playerFrameIndex = (playerFrameIndex + 1) % playerNumberOfFrames;
+  var xOffset = playerFrameIndex * frameWidth;
+  player.style.backgroundPosition = "-".concat(xOffset, "px 0px");
 }
+function animateNPC() {
+  npcFrameIndex = (npcFrameIndex + 1) % npcNumberOfFrames;
+  var xOffset = npcFrameIndex * frameWidth;
+  npc.style.backgroundPosition = "-".concat(xOffset, "px 0px");
+}
+function followPlayer() {
+  var playerX = player.offsetLeft;
+  var npcX = npc.offsetLeft;
+  if (playerX > npcX) {
+    npc.style.transform = 'translate(-50%, -50%) scaleX(1)'; // Normal orientation
+    npc.style.left = "".concat(npcX + speed / 2, "px"); // NPC moves at half speed
+    animateNPC();
+  } else if (playerX < npcX) {
+    npc.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
+    npc.style.left = "".concat(npcX - speed / 2, "px"); // NPC moves at half speed
+    animateNPC();
+  }
+}
+setInterval(followPlayer, 100); // Adjust interval as needed
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -163,7 +188,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44041" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43551" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
