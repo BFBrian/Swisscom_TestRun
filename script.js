@@ -3,9 +3,11 @@ const npc = document.getElementById('npc');
 let playerFrameIndex = 0;
 let npcFrameIndex = 0;
 const playerNumberOfFrames = 9;  // Adjust based on your player sprite sheet
-const npcNumberOfFrames = 4;     // Adjust based on your NPC sprite sheet
-const frameWidth = 79;     // Width of a single frame
-const frameHeight = 140;     // Height of a single frame
+const npcNumberOfFrames = 7;     // Adjust based on your NPC sprite sheet
+const playerFrameWidth = 79;     // Width of a single frame for the player
+const playerFrameHeight = 140;    // Height of a single frame for the player
+const npcFrameWidth = 210;        // Width of a single frame for the NPC
+const npcFrameHeight = 376;       // Height of a single frame for the NPC
 const speed = 10;          // Walking speed in pixels
 
 document.addEventListener('keydown', (event) => {
@@ -22,14 +24,18 @@ document.addEventListener('keydown', (event) => {
 
 function animatePlayer() {
     playerFrameIndex = (playerFrameIndex + 1) % playerNumberOfFrames;
-    const xOffset = playerFrameIndex * frameWidth;
-    player.style.backgroundPosition = `-${xOffset}px 0px`;
+    const xOffset = playerFrameIndex * playerFrameWidth;
+    const yOffset = 0;  // Adjust if your player sprite sheet has frames in multiple rows
+    player.style.backgroundPosition = `-${xOffset}px -${yOffset}px`;
 }
 
 function animateNPC() {
     npcFrameIndex = (npcFrameIndex + 1) % npcNumberOfFrames;
-    const xOffset = npcFrameIndex * frameWidth;
-    npc.style.backgroundPosition = `-${xOffset}px 0px`;
+    const xOffset = npcFrameIndex * npcFrameWidth;
+    const yOffset = 0;  // Adjust if your NPC sprite sheet has frames in multiple rows
+    npc.style.backgroundPosition = `-${xOffset}px -${yOffset}px`;
+    npc.style.width = `${npcFrameWidth}px`;
+    npc.style.height = `${npcFrameHeight}px`;
 }
 
 function followPlayer() {
@@ -38,11 +44,11 @@ function followPlayer() {
 
     if (playerX > npcX) {
         npc.style.transform = 'translate(-50%, -50%) scaleX(1)';  // Normal orientation
-        npc.style.left = `${npcX + (speed / 2)}px`;  // NPC moves at half speed
+        npc.style.left = `${npcX + (speed / 1.15)}px`;  // NPC moves at half speed
         animateNPC();
     } else if (playerX < npcX) {
         npc.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
-        npc.style.left = `${npcX - (speed / 2)}px`;  // NPC moves at half speed
+        npc.style.left = `${npcX - (speed / 1.15)}px`;  // NPC moves at half speed
         animateNPC();
     }
 }

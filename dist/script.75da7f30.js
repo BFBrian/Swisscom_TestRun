@@ -123,9 +123,11 @@ var npc = document.getElementById('npc');
 var playerFrameIndex = 0;
 var npcFrameIndex = 0;
 var playerNumberOfFrames = 9; // Adjust based on your player sprite sheet
-var npcNumberOfFrames = 4; // Adjust based on your NPC sprite sheet
-var frameWidth = 79; // Width of a single frame
-var frameHeight = 140; // Height of a single frame
+var npcNumberOfFrames = 7; // Adjust based on your NPC sprite sheet
+var playerFrameWidth = 79; // Width of a single frame for the player
+var playerFrameHeight = 140; // Height of a single frame for the player
+var npcFrameWidth = 210; // Width of a single frame for the NPC
+var npcFrameHeight = 376; // Height of a single frame for the NPC
 var speed = 10; // Walking speed in pixels
 
 document.addEventListener('keydown', function (event) {
@@ -141,24 +143,28 @@ document.addEventListener('keydown', function (event) {
 });
 function animatePlayer() {
   playerFrameIndex = (playerFrameIndex + 1) % playerNumberOfFrames;
-  var xOffset = playerFrameIndex * frameWidth;
-  player.style.backgroundPosition = "-".concat(xOffset, "px 0px");
+  var xOffset = playerFrameIndex * playerFrameWidth;
+  var yOffset = 0; // Adjust if your player sprite sheet has frames in multiple rows
+  player.style.backgroundPosition = "-".concat(xOffset, "px -").concat(yOffset, "px");
 }
 function animateNPC() {
   npcFrameIndex = (npcFrameIndex + 1) % npcNumberOfFrames;
-  var xOffset = npcFrameIndex * frameWidth;
-  npc.style.backgroundPosition = "-".concat(xOffset, "px 0px");
+  var xOffset = npcFrameIndex * npcFrameWidth;
+  var yOffset = 0; // Adjust if your NPC sprite sheet has frames in multiple rows
+  npc.style.backgroundPosition = "-".concat(xOffset, "px -").concat(yOffset, "px");
+  npc.style.width = "".concat(npcFrameWidth, "px");
+  npc.style.height = "".concat(npcFrameHeight, "px");
 }
 function followPlayer() {
   var playerX = player.offsetLeft;
   var npcX = npc.offsetLeft;
   if (playerX > npcX) {
     npc.style.transform = 'translate(-50%, -50%) scaleX(1)'; // Normal orientation
-    npc.style.left = "".concat(npcX + speed / 2, "px"); // NPC moves at half speed
+    npc.style.left = "".concat(npcX + speed / 1.15, "px"); // NPC moves at half speed
     animateNPC();
   } else if (playerX < npcX) {
     npc.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
-    npc.style.left = "".concat(npcX - speed / 2, "px"); // NPC moves at half speed
+    npc.style.left = "".concat(npcX - speed / 1.15, "px"); // NPC moves at half speed
     animateNPC();
   }
 }
@@ -188,7 +194,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43551" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40317" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

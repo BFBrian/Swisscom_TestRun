@@ -26,14 +26,16 @@ body, html {
 }
 #player {
     background-image: url('/Character_spritesheet.24a3a14a.png');
-    top: 50%;
+    top: 90%;
     left: 50%;
 }
 
 #npc {
     background-image: url('/NPC-Spritesheet.ff52a69a.png');
-    top: 50%;
+    top: 80%;
     left: 80%; /* Adjust based on where you want the NPC to start */
+    width: 1472px;  /* Adjusted width */
+    height: 800px; /* Adjusted height */
 }
 
 
