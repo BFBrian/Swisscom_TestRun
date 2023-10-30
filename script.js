@@ -180,7 +180,7 @@ function shootProjectile() {
                 isShooting = false;
     
                 if (hitCount >= 100) {
-                    alert('Game Over! The NPC has been hit 100 times.');
+                    alert('!!!YOU WIN!!! The Monster has been hit 100 times.');
                     // Add any additional game over logic here
                 }
             }

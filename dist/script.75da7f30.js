@@ -271,7 +271,7 @@ function shootProjectile() {
       clearInterval(projectileInterval);
       isShooting = false;
       if (hitCount >= 100) {
-        alert('Game Over! The NPC has been hit 100 times.');
+        alert('!!!YOU WIN!!! The Monster has been hit 100 times.');
         // Add any additional game over logic here
       }
     }
@@ -304,7 +304,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46639" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40103" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
