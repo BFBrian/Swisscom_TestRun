@@ -1,7 +1,7 @@
 .game-container {
     position: absolute;
     width: 2304px;  /* Adjust to your desired game area width */
-    height: 1425px; /* Adjust to your desired game area height */
+    height: 1250px; /* Adjust to your desired game area height */
     background-image: url('/background.73f2e897.jpg');
     background-size: cover;  /* Optional: ensures the background covers the entire container */
     border: 10px solid #000; /* Black border, adjust as needed */
@@ -33,9 +33,10 @@
 }
 .projectile {
     position: absolute;
-    width: 100px;  /* Adjust based on your projectile image */
+    width: 250px;  /* Adjust based on your projectile image */
     height: 100px; /* Adjust based on your projectile image */
-    background-image: url('/pixel_icons_553c3eea.89427126.png');
+    top: 50%;
+    background-image: url('/Projectile.f6a07dc8.png');
     background-size: cover;
     z-index: 3;  /* Ensure it's above the player and NPC */
     display: none; /* Hide it initially */

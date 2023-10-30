@@ -187,19 +187,28 @@ function followPlayer() {
 }
 function shootProjectile() {
   var playerRect = player.getBoundingClientRect();
+  var npcRect = npc.getBoundingClientRect();
   var gameContainerRect = document.querySelector('.game-container').getBoundingClientRect();
+  var directionX = npcRect.left + npcRect.width / 2 - (playerRect.right - gameContainerRect.left);
+  var directionY = npcRect.top + npcRect.height / 2 - (playerRect.top - gameContainerRect.top + playerRect.height / 2);
+  var magnitude = Math.sqrt(directionX * directionX + directionY * directionY);
+  var normalizedDirectionX = directionX / magnitude;
+  var normalizedDirectionY = directionY / magnitude;
   projectile.style.left = "".concat(playerRect.right - gameContainerRect.left, "px");
   projectile.style.top = "".concat(playerRect.top - gameContainerRect.top + playerRect.height / 2, "px");
   projectile.style.display = 'block';
   isShooting = true;
+  var projectileSpeed = 25; // Adjust speed as needed
   var projectileInterval = setInterval(function () {
-    var newLeft = projectile.offsetLeft + 25; // Adjust speed as needed
-    if (newLeft > gameContainerRect.width) {
+    var newLeft = projectile.offsetLeft + normalizedDirectionX * projectileSpeed;
+    var newTop = projectile.offsetTop + normalizedDirectionY * projectileSpeed;
+    if (newLeft > gameContainerRect.width || newLeft < 0 || newTop > gameContainerRect.height || newTop < 0) {
       clearInterval(projectileInterval);
       projectile.style.display = 'none';
       isShooting = false;
     } else {
       projectile.style.left = "".concat(newLeft, "px");
+      projectile.style.top = "".concat(newTop, "px");
     }
   }, 25); // Adjust interval as needed for smooth animation
 }
@@ -231,7 +240,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38075" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46639" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

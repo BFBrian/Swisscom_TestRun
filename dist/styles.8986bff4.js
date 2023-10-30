@@ -172,7 +172,7 @@ module.exports = reloadCSS;
 var reloadCSS = require('_css_loader');
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"/workspaces/Swisscom_TestRun/assets/background.jpg":[["background.73f2e897.jpg","assets/background.jpg"],"assets/background.jpg"],"/workspaces/Swisscom_TestRun/assets/Character_spritesheet.png":[["Character_spritesheet.24a3a14a.png","assets/Character_spritesheet.png"],"assets/Character_spritesheet.png"],"/workspaces/Swisscom_TestRun/assets/NPC-Spritesheet.png":[["NPC-Spritesheet.ff52a69a.png","assets/NPC-Spritesheet.png"],"assets/NPC-Spritesheet.png"],"/workspaces/Swisscom_TestRun/assets/pixel_icons_553c3eea.png":[["pixel_icons_553c3eea.89427126.png","assets/pixel_icons_553c3eea.png"],"assets/pixel_icons_553c3eea.png"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"/workspaces/Swisscom_TestRun/assets/background.jpg":[["background.73f2e897.jpg","assets/background.jpg"],"assets/background.jpg"],"/workspaces/Swisscom_TestRun/assets/Character_spritesheet.png":[["Character_spritesheet.24a3a14a.png","assets/Character_spritesheet.png"],"assets/Character_spritesheet.png"],"/workspaces/Swisscom_TestRun/assets/NPC-Spritesheet.png":[["NPC-Spritesheet.ff52a69a.png","assets/NPC-Spritesheet.png"],"assets/NPC-Spritesheet.png"],"/workspaces/Swisscom_TestRun/assets/Projectile.png":[["Projectile.f6a07dc8.png","assets/Projectile.png"],"assets/Projectile.png"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -197,7 +197,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38075" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46639" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

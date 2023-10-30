@@ -78,21 +78,32 @@ animateNPC();
 
 function shootProjectile() {
     const playerRect = player.getBoundingClientRect();
+    const npcRect = npc.getBoundingClientRect();
     const gameContainerRect = document.querySelector('.game-container').getBoundingClientRect();
+
+    const directionX = npcRect.left + npcRect.width / 2 - (playerRect.right - gameContainerRect.left);
+    const directionY = npcRect.top + npcRect.height / 2 - (playerRect.top - gameContainerRect.top + playerRect.height / 2);
+    const magnitude = Math.sqrt(directionX * directionX + directionY * directionY);
+    const normalizedDirectionX = directionX / magnitude;
+    const normalizedDirectionY = directionY / magnitude;
 
     projectile.style.left = `${playerRect.right - gameContainerRect.left}px`;
     projectile.style.top = `${playerRect.top - gameContainerRect.top + playerRect.height / 2}px`;
     projectile.style.display = 'block';
     isShooting = true;
 
+    const projectileSpeed = 25; // Adjust speed as needed
     const projectileInterval = setInterval(() => {
-        const newLeft = projectile.offsetLeft + 25; // Adjust speed as needed
-        if (newLeft > gameContainerRect.width) {
+        const newLeft = projectile.offsetLeft + normalizedDirectionX * projectileSpeed;
+        const newTop = projectile.offsetTop + normalizedDirectionY * projectileSpeed;
+
+        if (newLeft > gameContainerRect.width || newLeft < 0 || newTop > gameContainerRect.height || newTop < 0) {
             clearInterval(projectileInterval);
             projectile.style.display = 'none';
             isShooting = false;
         } else {
             projectile.style.left = `${newLeft}px`;
+            projectile.style.top = `${newTop}px`;
         }
     }, 25); // Adjust interval as needed for smooth animation
 }
