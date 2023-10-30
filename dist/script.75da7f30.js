@@ -142,12 +142,6 @@ document.addEventListener('keydown', function (event) {
     player.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
     player.style.left = "".concat(player.offsetLeft - speed, "px");
     animatePlayer();
-  } else if (event.key === 'ArrowUp' && player.offsetTop > 0) {
-    player.style.top = "".concat(player.offsetTop - speed, "px");
-    animatePlayer();
-  } else if (event.key === 'ArrowDown' && player.offsetTop < maxTop) {
-    player.style.top = "".concat(player.offsetTop + speed, "px");
-    animatePlayer();
   }
 });
 function animatePlayer() {

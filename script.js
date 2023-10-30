@@ -23,12 +23,7 @@ document.addEventListener('keydown', (event) => {
         player.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
         player.style.left = `${player.offsetLeft - speed}px`;
         animatePlayer();
-    } else if (event.key === 'ArrowUp' && player.offsetTop > 0) {
-        player.style.top = `${player.offsetTop - speed}px`;
-        animatePlayer();
-    } else if (event.key === 'ArrowDown' && player.offsetTop < maxTop) {
-        player.style.top = `${player.offsetTop + speed}px`;
-        animatePlayer();
+
     }
 });
 
