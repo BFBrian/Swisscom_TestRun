@@ -1,7 +1,9 @@
 let hitCount = 0;
+let playerHitCount = 5;
+let isPlayerHit = false;
 
 const hitIndicator = document.createElement('div');
-hitIndicator.innerText = `Hits: ${hitCount}`;
+hitIndicator.innerText = `Hits 100/ ${hitCount}`;
 hitIndicator.style.position = 'absolute';
 hitIndicator.style.top = '10px'; // Adjust as needed
 hitIndicator.style.left = '10px'; // Adjust as needed
@@ -11,6 +13,16 @@ hitIndicator.style.backgroundColor = 'red'; // Optional: for better visibility
 hitIndicator.style.padding = '50px'; // Optional: for better appearance
 document.body.appendChild(hitIndicator);
 
+const playerHitIndicator = document.createElement('div');
+playerHitIndicator.innerText = `Lives: ${playerHitCount}`;
+playerHitIndicator.style.position = 'absolute';
+playerHitIndicator.style.top = '10px';
+playerHitIndicator.style.right = '10px';
+playerHitIndicator.style.fontSize = '20px';
+playerHitIndicator.style.zIndex = '1000';
+playerHitIndicator.style.backgroundColor = 'green';
+playerHitIndicator.style.padding = '5px';
+document.body.appendChild(playerHitIndicator);
 
 
 const player = document.getElementById('player');
@@ -76,7 +88,23 @@ function followPlayer() {
     const npcSpeed = speed / .75;  // NPC moves slightly slower than the player
     const moveX = (deltaX > 0 ? 1 : -1) * npcSpeed;
 
+    const playerRect = player.getBoundingClientRect();
+    const npcRect = npc.getBoundingClientRect();
 
+    if (checkCollision(playerRect, npcRect) && !isPlayerHit) {
+        playerHitCount -= 1;
+        playerHitIndicator.innerText = `Lives: ${playerHitCount}`;
+        isPlayerHit = true;
+
+        setTimeout(() => {
+            isPlayerHit = false;
+        }, 2000); // 2 seconds delay
+
+        if (playerHitCount <= 0) {
+            alert('Game Over! The player has no live left.');
+            // Add any additional game over logic here
+        }
+    }
     // Update NPC position
     npc.style.left = `${Math.min(maxLeft, Math.max(0, npc.offsetLeft + moveX))}px`;
 
@@ -88,6 +116,7 @@ function followPlayer() {
 }
 animateNPC();
 }
+
 
 function checkCollision(rect1, rect2) {
     return (
@@ -145,13 +174,13 @@ function shootProjectile() {
     
             if (checkCollision(projectileRect, npcRect)) {
                 hitCount += 1;
-                hitIndicator.innerText = `Hits: ${hitCount}`;
+                hitIndicator.innerText = `Hits 100/ ${hitCount}`;
                 projectile.style.display = 'none';
                 clearInterval(projectileInterval);
                 isShooting = false;
     
                 if (hitCount >= 100) {
-                    alert('Game Over! The NPC has been hit 10 times.');
+                    alert('Game Over! The NPC has been hit 100 times.');
                     // Add any additional game over logic here
                 }
             }

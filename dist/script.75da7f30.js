@@ -119,8 +119,10 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   return newRequire;
 })({"script.js":[function(require,module,exports) {
 var hitCount = 0;
+var playerHitCount = 5;
+var isPlayerHit = false;
 var hitIndicator = document.createElement('div');
-hitIndicator.innerText = "Hits: ".concat(hitCount);
+hitIndicator.innerText = "Hits 100/ ".concat(hitCount);
 hitIndicator.style.position = 'absolute';
 hitIndicator.style.top = '10px'; // Adjust as needed
 hitIndicator.style.left = '10px'; // Adjust as needed
@@ -129,6 +131,16 @@ hitIndicator.style.zIndex = '1000'; // Ensure it's on top of other elements
 hitIndicator.style.backgroundColor = 'red'; // Optional: for better visibility
 hitIndicator.style.padding = '50px'; // Optional: for better appearance
 document.body.appendChild(hitIndicator);
+var playerHitIndicator = document.createElement('div');
+playerHitIndicator.innerText = "Lives: ".concat(playerHitCount);
+playerHitIndicator.style.position = 'absolute';
+playerHitIndicator.style.top = '10px';
+playerHitIndicator.style.right = '10px';
+playerHitIndicator.style.fontSize = '20px';
+playerHitIndicator.style.zIndex = '1000';
+playerHitIndicator.style.backgroundColor = 'green';
+playerHitIndicator.style.padding = '5px';
+document.body.appendChild(playerHitIndicator);
 var player = document.getElementById('player');
 var npc = document.getElementById('npc');
 var playerFrameIndex = 0;
@@ -183,7 +195,21 @@ function followPlayer() {
   var deltaX = playerX - npcX;
   var npcSpeed = speed / .75; // NPC moves slightly slower than the player
   var moveX = (deltaX > 0 ? 1 : -1) * npcSpeed;
+  var playerRect = player.getBoundingClientRect();
+  var npcRect = npc.getBoundingClientRect();
+  if (checkCollision(playerRect, npcRect) && !isPlayerHit) {
+    playerHitCount -= 1;
+    playerHitIndicator.innerText = "Lives: ".concat(playerHitCount);
+    isPlayerHit = true;
+    setTimeout(function () {
+      isPlayerHit = false;
+    }, 2000); // 2 seconds delay
 
+    if (playerHitCount <= 0) {
+      alert('Game Over! The player has no live left.');
+      // Add any additional game over logic here
+    }
+  }
   // Update NPC position
   npc.style.left = "".concat(Math.min(maxLeft, Math.max(0, npc.offsetLeft + moveX)), "px");
 
@@ -240,12 +266,12 @@ function shootProjectile() {
     var npcRect = npc.getBoundingClientRect();
     if (checkCollision(projectileRect, npcRect)) {
       hitCount += 1;
-      hitIndicator.innerText = "Hits: ".concat(hitCount);
+      hitIndicator.innerText = "Hits 100/ ".concat(hitCount);
       projectile.style.display = 'none';
       clearInterval(projectileInterval);
       isShooting = false;
       if (hitCount >= 100) {
-        alert('Game Over! The NPC has been hit 10 times.');
+        alert('Game Over! The NPC has been hit 100 times.');
         // Add any additional game over logic here
       }
     }
