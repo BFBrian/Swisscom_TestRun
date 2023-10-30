@@ -1,7 +1,7 @@
 .game-container {
-    position: relative;
-    width: 1600px;  /* Adjust to your desired game area width */
-    height: 1000px; /* Adjust to your desired game area height */
+    position: absolute;
+    width: 2304px;  /* Adjust to your desired game area width */
+    height: 1425px; /* Adjust to your desired game area height */
     background-image: url('/assets/background.jpg');
     background-size: cover;  /* Optional: ensures the background covers the entire container */
     border: 10px solid #000; /* Black border, adjust as needed */
@@ -19,14 +19,24 @@
 }
 #player {
     background-image: url('/assets/Character_spritesheet.png');
-    top: 90%;
-    left: 50%;
+    top: 92%;
+    left: 20%;
 }
 
 #npc {
     background-image: url('/assets/NPC-Spritesheet.png');
-    top: 80%;
+    position: absolute;
+    top: 84%;
     left: 80%; /* Adjust based on where you want the NPC to start */
-    width: 1472px;  /* Adjusted width */
+    width: 210px;  /* Adjusted width */
     height: 800px; /* Adjusted height */
+}
+.projectile {
+    position: absolute;
+    width: 100px;  /* Adjust based on your projectile image */
+    height: 100px; /* Adjust based on your projectile image */
+    background-image: url('/assets/pixel_icons_553c3eea.png');
+    background-size: cover;
+    z-index: 3;  /* Ensure it's above the player and NPC */
+    display: none; /* Hide it initially */
 }

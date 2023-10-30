@@ -130,6 +130,8 @@ var npcFrameWidth = 210; // Width of a single frame for the NPC
 var npcFrameHeight = 376; // Height of a single frame for the NPC
 var speed = 10; // Walking speed in pixels
 
+var projectile = document.getElementById('projectile');
+var isShooting = false;
 document.addEventListener('keydown', function (event) {
   var gameContainer = document.querySelector('.game-container');
   var maxLeft = gameContainer.offsetWidth - player.offsetWidth;
@@ -142,6 +144,10 @@ document.addEventListener('keydown', function (event) {
     player.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
     player.style.left = "".concat(player.offsetLeft - speed, "px");
     animatePlayer();
+  }
+  if (event.key === ' ' && !isShooting) {
+    // Space bar
+    shootProjectile();
   }
 });
 function animatePlayer() {
@@ -161,19 +167,44 @@ function animateNPC() {
 function followPlayer() {
   var gameContainer = document.querySelector('.game-container');
   var maxLeft = gameContainer.offsetWidth - npc.offsetWidth;
-  var maxTop = gameContainer.offsetHeight - npc.offsetHeight;
-  var playerX = player.offsetLeft;
-  var npcX = npc.offsetLeft;
-  if (playerX > npcX && npc.offsetLeft < maxLeft) {
+  var playerX = player.offsetLeft + player.offsetWidth / 2;
+  var npcX = npc.offsetLeft + npc.offsetWidth / 2;
+  var deltaX = playerX - npcX;
+  var npcSpeed = speed / 1.15; // NPC moves slightly slower than the player
+  var moveX = (deltaX > 0 ? 1 : -1) * npcSpeed;
+
+  // Update NPC position
+  npc.style.left = "".concat(Math.min(maxLeft, Math.max(0, npc.offsetLeft + moveX)), "px");
+
+  // Update NPC animation
+  if (moveX > 0) {
     npc.style.transform = 'translate(-50%, -50%) scaleX(1)'; // Normal orientation
-    npc.style.left = "".concat(npcX + speed / 1.15, "px"); // NPC moves at half speed
-    animateNPC();
-  } else if (playerX < npcX && npc.offsetLeft > 0) {
+  } else if (moveX < 0) {
     npc.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
-    npc.style.left = "".concat(npcX - speed / 1.15, "px"); // NPC moves at half speed
-    animateNPC();
   }
+
+  animateNPC();
 }
+function shootProjectile() {
+  var playerRect = player.getBoundingClientRect();
+  var gameContainerRect = document.querySelector('.game-container').getBoundingClientRect();
+  projectile.style.left = "".concat(playerRect.right - gameContainerRect.left, "px");
+  projectile.style.top = "".concat(playerRect.top - gameContainerRect.top + playerRect.height / 2, "px");
+  projectile.style.display = 'block';
+  isShooting = true;
+  var projectileInterval = setInterval(function () {
+    var newLeft = projectile.offsetLeft + 25; // Adjust speed as needed
+    if (newLeft > gameContainerRect.width) {
+      clearInterval(projectileInterval);
+      projectile.style.display = 'none';
+      isShooting = false;
+    } else {
+      projectile.style.left = "".concat(newLeft, "px");
+    }
+  }, 25); // Adjust interval as needed for smooth animation
+}
+
+;
 setInterval(followPlayer, 100); // Adjust interval as needed
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -200,7 +231,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40317" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38075" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
