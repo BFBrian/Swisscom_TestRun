@@ -1,3 +1,18 @@
+let hitCount = 0;
+
+const hitIndicator = document.createElement('div');
+hitIndicator.innerText = `Hits: ${hitCount}`;
+hitIndicator.style.position = 'absolute';
+hitIndicator.style.top = '10px'; // Adjust as needed
+hitIndicator.style.left = '10px'; // Adjust as needed
+hitIndicator.style.fontSize = '50px'; // Adjust as needed
+hitIndicator.style.zIndex = '1000'; // Ensure it's on top of other elements
+hitIndicator.style.backgroundColor = 'red'; // Optional: for better visibility
+hitIndicator.style.padding = '50px'; // Optional: for better appearance
+document.body.appendChild(hitIndicator);
+
+
+
 const player = document.getElementById('player');
 const npc = document.getElementById('npc');
 let playerFrameIndex = 0;
@@ -74,7 +89,14 @@ function followPlayer() {
 animateNPC();
 }
 
-
+function checkCollision(rect1, rect2) {
+    return (
+        rect1.left < rect2.right &&
+        rect1.right > rect2.left &&
+        rect1.top < rect2.bottom &&
+        rect1.bottom > rect2.top
+    );
+}
 
 function shootProjectile() {
     const playerRect = player.getBoundingClientRect();
@@ -104,22 +126,36 @@ function shootProjectile() {
         }
     
 
-    const projectileSpeed = 25; // Adjust speed as needed
-    const projectileInterval = setInterval(() => {
-        const newLeft = projectile.offsetLeft + normalizedDirectionX * projectileSpeed;
-        const newTop = projectile.offsetTop + normalizedDirectionY * projectileSpeed;
-
-        if (newLeft > gameContainerRect.width || newLeft < 0 || newTop > gameContainerRect.height || newTop < 0) {
-            clearInterval(projectileInterval);
-            projectile.style.display = 'none';
-            isShooting = false;
-        } else {
-            projectile.style.left = `${newLeft}px`;
-            projectile.style.top = `${newTop}px`;
-        }
-    }, 25); // Adjust interval as needed for smooth animation
-}
-
-;
+        const projectileSpeed = 20; // Adjust speed as needed
+        const projectileInterval = setInterval(() => {
+            const newLeft = projectile.offsetLeft + normalizedDirectionX * projectileSpeed;
+            const newTop = projectile.offsetTop + normalizedDirectionY * projectileSpeed;
+    
+            if (newLeft > gameContainerRect.width || newLeft < 0 || newTop > gameContainerRect.height || newTop < 0) {
+                clearInterval(projectileInterval);
+                projectile.style.display = 'none';
+                isShooting = false;
+            } else {
+                projectile.style.left = `${newLeft}px`;
+                projectile.style.top = `${newTop}px`;
+            }
+    
+            const projectileRect = projectile.getBoundingClientRect();
+            const npcRect = npc.getBoundingClientRect();
+    
+            if (checkCollision(projectileRect, npcRect)) {
+                hitCount += 1;
+                hitIndicator.innerText = `Hits: ${hitCount}`;
+                projectile.style.display = 'none';
+                clearInterval(projectileInterval);
+                isShooting = false;
+    
+                if (hitCount >= 100) {
+                    alert('Game Over! The NPC has been hit 10 times.');
+                    // Add any additional game over logic here
+                }
+            }
+        }, 25); // Adjust interval as needed for smooth animation
+    } // This closes the shootProjectile function
 
 setInterval(followPlayer, 100);  // Adjust interval as needed

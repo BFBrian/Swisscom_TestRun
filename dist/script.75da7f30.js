@@ -118,6 +118,17 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"script.js":[function(require,module,exports) {
+var hitCount = 0;
+var hitIndicator = document.createElement('div');
+hitIndicator.innerText = "Hits: ".concat(hitCount);
+hitIndicator.style.position = 'absolute';
+hitIndicator.style.top = '10px'; // Adjust as needed
+hitIndicator.style.left = '10px'; // Adjust as needed
+hitIndicator.style.fontSize = '50px'; // Adjust as needed
+hitIndicator.style.zIndex = '1000'; // Ensure it's on top of other elements
+hitIndicator.style.backgroundColor = 'red'; // Optional: for better visibility
+hitIndicator.style.padding = '50px'; // Optional: for better appearance
+document.body.appendChild(hitIndicator);
 var player = document.getElementById('player');
 var npc = document.getElementById('npc');
 var playerFrameIndex = 0;
@@ -185,6 +196,9 @@ function followPlayer() {
 
   animateNPC();
 }
+function checkCollision(rect1, rect2) {
+  return rect1.left < rect2.right && rect1.right > rect2.left && rect1.top < rect2.bottom && rect1.bottom > rect2.top;
+}
 function shootProjectile() {
   var playerRect = player.getBoundingClientRect();
   var npcRect = npc.getBoundingClientRect();
@@ -210,7 +224,7 @@ function shootProjectile() {
   } else {
     projectile.style.transform = 'scaleX(1)';
   }
-  var projectileSpeed = 25; // Adjust speed as needed
+  var projectileSpeed = 20; // Adjust speed as needed
   var projectileInterval = setInterval(function () {
     var newLeft = projectile.offsetLeft + normalizedDirectionX * projectileSpeed;
     var newTop = projectile.offsetTop + normalizedDirectionY * projectileSpeed;
@@ -222,10 +236,22 @@ function shootProjectile() {
       projectile.style.left = "".concat(newLeft, "px");
       projectile.style.top = "".concat(newTop, "px");
     }
+    var projectileRect = projectile.getBoundingClientRect();
+    var npcRect = npc.getBoundingClientRect();
+    if (checkCollision(projectileRect, npcRect)) {
+      hitCount += 1;
+      hitIndicator.innerText = "Hits: ".concat(hitCount);
+      projectile.style.display = 'none';
+      clearInterval(projectileInterval);
+      isShooting = false;
+      if (hitCount >= 100) {
+        alert('Game Over! The NPC has been hit 10 times.');
+        // Add any additional game over logic here
+      }
+    }
   }, 25); // Adjust interval as needed for smooth animation
-}
+} // This closes the shootProjectile function
 
-;
 setInterval(followPlayer, 100); // Adjust interval as needed
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
