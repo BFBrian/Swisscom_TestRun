@@ -58,7 +58,7 @@ function followPlayer() {
 
     const deltaX = playerX - npcX;
 
-    const npcSpeed = speed / 1.15;  // NPC moves slightly slower than the player
+    const npcSpeed = speed / .75;  // NPC moves slightly slower than the player
     const moveX = (deltaX > 0 ? 1 : -1) * npcSpeed;
 
 
@@ -87,10 +87,22 @@ function shootProjectile() {
     const normalizedDirectionX = directionX / magnitude;
     const normalizedDirectionY = directionY / magnitude;
 
-    projectile.style.left = `${playerRect.right - gameContainerRect.left}px`;
-    projectile.style.top = `${playerRect.top - gameContainerRect.top + playerRect.height / 2}px`;
-    projectile.style.display = 'block';
-    isShooting = true;
+        // Adjust these values to change the starting location of the projectile
+        const offsetX = -100; // Horizontal offset from the player's right edge
+        const offsetY = -80;  // Vertical offset from the player's center
+
+        projectile.style.left = `${playerRect.right - gameContainerRect.left + offsetX}px`;
+        projectile.style.top = `${playerRect.top - gameContainerRect.top + playerRect.height / 2 + offsetY}px`;
+        projectile.style.display = 'block';
+        isShooting = true;
+
+        // Mirror the projectile image if moving from right to left
+        if (normalizedDirectionX < 0) {
+            projectile.style.transform = 'scaleX(-1)';
+        } else {
+            projectile.style.transform = 'scaleX(1)';
+        }
+    
 
     const projectileSpeed = 25; // Adjust speed as needed
     const projectileInterval = setInterval(() => {
