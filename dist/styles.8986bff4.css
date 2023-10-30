@@ -1,28 +1,21 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.background-image-container {
-    /* Set the background image */
+.game-container {
+    position: relative;
+    width: 1600px;  /* Adjust to your desired game area width */
+    height: 1000px; /* Adjust to your desired game area height */
     background-image: url('/background.73f2e897.jpg');
-
-    /* Set the height to cover the full viewport */
-    height: 100%;
-
-    /* Center and scale the image */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover;  /* Optional: ensures the background covers the entire container */
+    border: 10px solid #000; /* Black border, adjust as needed */
+    overflow: hidden;
+    margin: 0 auto; /* Center the game container */
+    z-index: 1;
 }
-
 .character {
     width: 79px;  /* Width of a single frame */
     height: 140px; /* Height of a single frame */
     background-repeat: no-repeat;
     position: absolute;
     transform: translate(-50%, -50%);
+    z-index: 2;
 }
 #player {
     background-image: url('/Character_spritesheet.24a3a14a.png');

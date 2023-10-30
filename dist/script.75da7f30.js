@@ -131,13 +131,22 @@ var npcFrameHeight = 376; // Height of a single frame for the NPC
 var speed = 10; // Walking speed in pixels
 
 document.addEventListener('keydown', function (event) {
-  if (event.key === 'ArrowRight') {
+  var gameContainer = document.querySelector('.game-container');
+  var maxLeft = gameContainer.offsetWidth - player.offsetWidth;
+  var maxTop = gameContainer.offsetHeight - player.offsetHeight;
+  if (event.key === 'ArrowRight' && player.offsetLeft < maxLeft) {
     player.style.transform = 'translate(-50%, -50%) scaleX(1)'; // Normal orientation
     player.style.left = "".concat(player.offsetLeft + speed, "px");
     animatePlayer();
-  } else if (event.key === 'ArrowLeft') {
+  } else if (event.key === 'ArrowLeft' && player.offsetLeft > 0) {
     player.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
     player.style.left = "".concat(player.offsetLeft - speed, "px");
+    animatePlayer();
+  } else if (event.key === 'ArrowUp' && player.offsetTop > 0) {
+    player.style.top = "".concat(player.offsetTop - speed, "px");
+    animatePlayer();
+  } else if (event.key === 'ArrowDown' && player.offsetTop < maxTop) {
+    player.style.top = "".concat(player.offsetTop + speed, "px");
     animatePlayer();
   }
 });
@@ -156,13 +165,16 @@ function animateNPC() {
   npc.style.height = "".concat(npcFrameHeight, "px");
 }
 function followPlayer() {
+  var gameContainer = document.querySelector('.game-container');
+  var maxLeft = gameContainer.offsetWidth - npc.offsetWidth;
+  var maxTop = gameContainer.offsetHeight - npc.offsetHeight;
   var playerX = player.offsetLeft;
   var npcX = npc.offsetLeft;
-  if (playerX > npcX) {
+  if (playerX > npcX && npc.offsetLeft < maxLeft) {
     npc.style.transform = 'translate(-50%, -50%) scaleX(1)'; // Normal orientation
     npc.style.left = "".concat(npcX + speed / 1.15, "px"); // NPC moves at half speed
     animateNPC();
-  } else if (playerX < npcX) {
+  } else if (playerX < npcX && npc.offsetLeft > 0) {
     npc.style.transform = 'translate(-50%, -50%) scaleX(-1)'; // Mirrored orientation
     npc.style.left = "".concat(npcX - speed / 1.15, "px"); // NPC moves at half speed
     animateNPC();
